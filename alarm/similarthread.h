@@ -19,9 +19,9 @@ public:
     int No=0;
     int standard=0;
     float simResult=0;
-
-private:
     void run();
+private:
+
     ///////////////////////////////////////////
     void conjugate_complex1(int n,complex1 in[],complex1 out[]);
     void c_plus(complex1 a,complex1 b,complex1 *c);

@@ -82,6 +82,7 @@ class Global : public QObject
     Q_OBJECT
 public:
     explicit Global(QObject *parent = nullptr);
+
     //音频缓存
     QByteArray audioCache[200];
     int cacheSize=131072;
@@ -132,6 +133,7 @@ public:
     float similar[200];
     //相似度延时
     int simDelay[200]={0};
+
 signals:
 
 public slots:

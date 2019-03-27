@@ -25,6 +25,8 @@ void ALarmSimilar::doWork()
 
     simThread->No=No;
     simThread->standard=standard;
+    simThread->run();
+#ifdef asdaf
     simThread->start();
     while (simThread->isRunning())
     {
@@ -34,7 +36,7 @@ void ALarmSimilar::doWork()
         timer.start(5);
         loop.exec();
     }
-
+#endif
     float xiangdiu=simThread->simResult;
 
     g->similar[No]=xiangdiu;
