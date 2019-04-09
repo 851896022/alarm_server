@@ -7,7 +7,7 @@ DirRefresh::DirRefresh(QObject *parent) : QObject(parent)
 void DirRefresh::initThis()
 {
     QStringList nameList;
-    qDebug()<<"asd";
+    //qDebug()<<"asd";
     //================================================================
         {
             QString filename;
@@ -36,13 +36,13 @@ void DirRefresh::initThis()
             }
             file->deleteLater();
         }
-    qDebug()<<"asd";
+    //qDebug()<<"asd";
     int c=200-nameList.count();
     for(int i=0;i<(c);i++)
     {
         nameList.append(QString(""));
     }
-    qDebug()<<"asd"<<nameList.count();
+    //qDebug()<<"asd"<<nameList.count();
     for(int i=0;i<200;i++)
     {
         QString str;
@@ -50,7 +50,7 @@ void DirRefresh::initThis()
         str+=nameList.at(i);
         g->chName[i]=str;
     }
-    qDebug()<<"asd";
+    //qDebug()<<"asd";
     QString tmp2;//存储位置
 
     QString filename;
@@ -64,7 +64,7 @@ void DirRefresh::initThis()
 
         file->close();
     }
-    qDebug()<<"asd";
+    //qDebug()<<"asd";
     file->deleteLater();
 
     if(tmp2==QString(""))
@@ -75,7 +75,7 @@ void DirRefresh::initThis()
     {
         g->audioDirBase[i]=tmp2+"/"+g->chName[i];
     }
-    qDebug()<<"dir ok";
+    //qDebug()<<"dir ok";
     //======================================================
     addTaskTimer=new QTimer;
     connect(addTaskTimer,SIGNAL(timeout()),this,SLOT(addTask()));

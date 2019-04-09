@@ -54,5 +54,5 @@ HEADERS += \
 
 FORMS += \
         window.ui
-
+DEFINES += QT_MESSAGELOGCONTEXT
 include( $$PWD/JQLibrary/JQCPUMonitor.pri )
