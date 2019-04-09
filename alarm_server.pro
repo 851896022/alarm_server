@@ -34,7 +34,9 @@ SOURCES += \
     alarm/yxt/qredismanager.cpp \
     alarm/senddata.cpp \
     alarm/alarmsimilar.cpp \
-    alarm/similarthread.cpp
+    alarm/similarthread.cpp \
+    AudioTransfer/dirrefresh.cpp \
+    AudioTransfer/transferfile.cpp
 
 HEADERS += \
         window.h \
@@ -46,7 +48,9 @@ HEADERS += \
     alarm/yxt/qredismanager.h \
     alarm/senddata.h \
     alarm/alarmsimilar.h \
-    alarm/similarthread.h
+    alarm/similarthread.h \
+    AudioTransfer/dirrefresh.h \
+    AudioTransfer/transferfile.h
 
 FORMS += \
         window.ui

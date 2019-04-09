@@ -13,6 +13,8 @@
 #include <QMutex>
 #include <JQCPUMonitor>
 #include "alarm/yxt/qRedis.h"
+#include <QFile>
+#include <QDir>
 struct yxtbase
 {
     int startTimeInt=0;
@@ -77,6 +79,15 @@ struct AlarmInfo
     QDateTime startTime;
     QDateTime endTime;
 };
+struct TransTask
+{
+    TransTask() {}
+    int ch;
+    QDateTime time;
+    QString sourceDir;
+    QString targetDir;
+    QString fileName;
+};
 class Global : public QObject
 {
     Q_OBJECT
@@ -133,6 +144,13 @@ public:
     float similar[200];
     //相似度延时
     int simDelay[200]={0};
+
+
+
+    //=======转存音频相关=============
+    QString audioDirBase[200];
+    QString chName[200];
+    QList<TransTask> transTaskList;
 
 signals:
 

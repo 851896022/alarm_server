@@ -11,6 +11,8 @@
 #include "alarm/alarmapm.h"
 #include "alarm/senddata.h"
 #include "alarm/alarmsimilar.h"
+#include "AudioTransfer/dirrefresh.h"
+#include "AudioTransfer/transferfile.h"
 Global *g;
 void setDebugOutput(const QString &targetFilePath, const bool &argDateFlag = false);
 int main(int argc, char *argv[])
@@ -79,8 +81,12 @@ int main(int argc, char *argv[])
     SendData *sendData=new SendData;
     sendData->initThis();
 
-
-
+    qDebug()<<"init dirRefresh";
+    DirRefresh  *dirRefresh=new DirRefresh;
+    dirRefresh->initThis();
+    qDebug()<<"init transferFile";
+    TransferFile * transferFile= new TransferFile;
+    transferFile->initThis();
     qDebug()<<"connect signal and slot";
     for(int i=0;i<200;i++)
     {
