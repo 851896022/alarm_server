@@ -36,7 +36,8 @@ SOURCES += \
     alarm/alarmsimilar.cpp \
     alarm/similarthread.cpp \
     AudioTransfer/dirrefresh.cpp \
-    AudioTransfer/transferfile.cpp
+    AudioTransfer/transferfile.cpp \
+    sql/mysql.cpp
 
 HEADERS += \
         window.h \
@@ -50,7 +51,8 @@ HEADERS += \
     alarm/alarmsimilar.h \
     alarm/similarthread.h \
     AudioTransfer/dirrefresh.h \
-    AudioTransfer/transferfile.h
+    AudioTransfer/transferfile.h \
+    sql/mysql.h
 
 FORMS += \
         window.ui
