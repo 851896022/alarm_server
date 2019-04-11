@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -37,7 +37,8 @@ SOURCES += \
     alarm/similarthread.cpp \
     AudioTransfer/dirrefresh.cpp \
     AudioTransfer/transferfile.cpp \
-    sql/mysql.cpp
+    sql/mysql.cpp \
+    sql/secondlog.cpp
 
 HEADERS += \
         window.h \
@@ -52,7 +53,8 @@ HEADERS += \
     alarm/similarthread.h \
     AudioTransfer/dirrefresh.h \
     AudioTransfer/transferfile.h \
-    sql/mysql.h
+    sql/mysql.h \
+    sql/secondlog.h
 
 FORMS += \
         window.ui

@@ -19,6 +19,7 @@ void SimilarThread::run()
             //qDebug()<<No<<"work"<<QThread::currentThreadId()<<"sim="<<tmp;
         }
     }
+
     msleep(qrand()%200);
     emit workFinish();
 

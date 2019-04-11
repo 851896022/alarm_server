@@ -4,15 +4,17 @@ Global::Global(QObject *parent) : QObject(parent)
 {
     for(int i=0;i<200;i++)
     {
-        maxValue[i]=0;
+        maxValue[i]=-1;
         alarmDelay[i]=10;
         alarmGate[i]=500;
         simDelay[i]=30;
         simGate[i]=0.3;
         similar[i]=-1;
         standardList[i]=-1;
+        similarity[i]=-1;
     }
-
+    //Normal,Similar,Range,All,SimilarCancel,RangeCancel,Other,
+    alarmTypeString<<"正常"<<"相似度报警"<<"幅度报警"<<"相似度和幅度报警"<<"相似度恢复"<<"幅度恢复"<<"其他"<<"";
     //读取redis服务器
     {
         QString fileDir=(qApp->applicationDirPath()+"/sav/yxtserver.sav");
@@ -124,6 +126,7 @@ Global::Global(QObject *parent) : QObject(parent)
     QTimer *timerSec=new QTimer;
     connect(timerSec,SIGNAL(timeout()),this,SLOT(refTime()));
     timerSec->start(800);
+    mySql.initThis("127.0.0.1","ggd","admin","admin");
 }
 void Global::outPutState()
 {
@@ -196,7 +199,14 @@ int Global::addAlarmInfo(int ch,AlarmType alarmType)
     tmp.startTime=QDateTime::currentDateTime();
     g->alarmInfoList.append(tmp);
     alarmCount++;
+    bool ok=g->mySql.takeLog(/*日志内容*/"通道"+QString::number(ch)+alarmTypeString.at(alarmType),
+                     /*表*/"alarm_log",
+                     /*类型*/alarmTypeString.at(alarmType),
+                     /*用户名*/"server"
+                     );//日志模板
+    qDebug()<<"alarm log"<<ok<<"通道"+QString::number(ch)+alarmTypeString.at(alarmType);
     alarmCountMutex.unlock();
+
     return tmp.alarmNo;
 }
 

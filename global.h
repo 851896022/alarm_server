@@ -15,6 +15,8 @@
 #include "alarm/yxt/qRedis.h"
 #include <QFile>
 #include <QDir>
+#include "sql/mysql.h"
+#include "sql/secondlog.h"
 struct yxtbase
 {
     int startTimeInt=0;
@@ -71,6 +73,7 @@ enum AlarmType
     Other,
 
 };
+
 struct AlarmInfo
 {
     int alarmNo=0;
@@ -113,6 +116,10 @@ public:
     //通道的参考通道号
     int standardList[200];
     
+
+    //报警类型-字符
+    //Normal,Similar,Range,All,SimilarCancel,RangeCancel,Other,
+    QStringList alarmTypeString;
     //报警信息列表
     QList<AlarmInfo> alarmInfoList;
     //通道状态
@@ -151,6 +158,11 @@ public:
     QString audioDirBase[200];
     QString chName[200];
     QList<TransTask> transTaskList;
+
+
+    //=====数据库=======
+     MySQL mySql;
+     SecondLog secondLog;
 
 signals:
 
