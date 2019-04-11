@@ -62,11 +62,14 @@ void ALarmSimilar::doWork()
         {
             g->stateCh[No]=Normal;
             emit alert(No,SimilarCancel,QDateTime::currentDateTime());
+            g->logInfo(No,SimilarCancel);
         }
         else if(g->stateCh[No]==All)
         {
             g->stateCh[No]=Range;
             emit alert(No,SimilarCancel,QDateTime::currentDateTime());
+            g->logInfo(No,SimilarCancel);
+
         }
         if(alarmDelay->isActive())
         {
@@ -110,6 +113,7 @@ void ALarmSimilar::doAlert()
             g->stateCh[No]=All;
             tmp=g->addAlarmInfo(No,Similar);
             emit alert(tmp);
+            g->logInfo(No,Similar);
             qDebug()<<No<<"sim do alert all";
 
         }
@@ -118,6 +122,7 @@ void ALarmSimilar::doAlert()
             g->stateCh[No]=Similar;
             tmp=g->addAlarmInfo(No,Similar);
             emit alert(tmp);
+            g->logInfo(No,Similar);
             qDebug()<<No<<"sim do alert similar";
         }
 

@@ -45,11 +45,13 @@ void AlarmApm::doTest()
         {
             g->stateCh[No]=Normal;
             emit alert(No,RangeCancel,QDateTime::currentDateTime());
+            g->logInfo(No,RangeCancel);
         }
         else if(g->stateCh[No]==All)
         {
             g->stateCh[No]=Similar;
             emit alert(No,RangeCancel,QDateTime::currentDateTime());
+            g->logInfo(No,RangeCancel);
         }
     }
     else
@@ -76,6 +78,7 @@ void AlarmApm::doAlert()
             g->stateCh[No]=All;
             tmp=g->addAlarmInfo(No,Range);
             emit alert(tmp);
+            g->logInfo(No,Range);
 
         }
         else if(g->stateCh[No]==Normal)
@@ -83,6 +86,7 @@ void AlarmApm::doAlert()
             g->stateCh[No]=Range;
             tmp=g->addAlarmInfo(No,Range);
             emit alert(tmp);
+            g->logInfo(No,Range);
         }
 
 

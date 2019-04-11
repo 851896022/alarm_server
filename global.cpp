@@ -199,14 +199,22 @@ int Global::addAlarmInfo(int ch,AlarmType alarmType)
     tmp.startTime=QDateTime::currentDateTime();
     g->alarmInfoList.append(tmp);
     alarmCount++;
-    bool ok=g->mySql.takeLog(/*日志内容*/"通道"+QString::number(ch)+alarmTypeString.at(alarmType),
-                     /*表*/"alarm_log",
-                     /*类型*/alarmTypeString.at(alarmType),
-                     /*用户名*/"server"
-                     );//日志模板
-    qDebug()<<"alarm log"<<ok<<"通道"+QString::number(ch)+alarmTypeString.at(alarmType);
+
+    //qDebug()<<"alarm log"<<ok<<"通道"+QString::number(ch)+alarmTypeString.at(alarmType);
     alarmCountMutex.unlock();
 
     return tmp.alarmNo;
 }
+void Global::logInfo(int ch,AlarmType alarmType)
+{
+    mySql.takeLog(/*日志内容*/chName[ch]+alarmTypeString.at(alarmType),
+                     /*表*/"alarm_log",
+                     /*类型*/alarmTypeString.at(alarmType),
+                     /*用户名*/"server"
+                     );//日志模板
+
+
+}
+
+
 

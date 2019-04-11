@@ -171,6 +171,7 @@ public slots:
     void refTime();
     int getNowFreq(int transmitterNo);
     int addAlarmInfo(int ch,AlarmType alarmType);
+    void logInfo(int ch,AlarmType alarmType);
 };
 extern Global *g;
 #endif // GLOBAL_H
