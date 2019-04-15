@@ -101,8 +101,11 @@ bool DirRefresh::addTaskTest(int ch,QDateTime time)
     int i=0;
     for(i=0;i<g->transTaskList.count();i++)
     {
-        if(g->transTaskList[i].ch==ch&&
-                g->transTaskList[i].time==time)
+        if(g->transTaskList[i].ch==ch
+                && g->transTaskList[i].time.date()==time.date()
+                && g->transTaskList[i].time.time().hour()==time.time().hour()
+                && g->transTaskList[i].time.time().minute()==time.time().minute()
+           )
         {
             return false;
         }

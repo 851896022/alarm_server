@@ -38,7 +38,7 @@ void ALarmSimilar::doWork()
     }
 #endif
     float xiangdiu=simThread->simResult;
-
+    g->watchDogCount[No]=0;
     g->similar[No]=xiangdiu;
     //qDebug()<<No<<simThread->isRunning()<<QThread::currentThreadId();
 

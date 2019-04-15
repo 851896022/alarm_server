@@ -13,6 +13,7 @@
 #include "alarm/alarmsimilar.h"
 #include "AudioTransfer/dirrefresh.h"
 #include "AudioTransfer/transferfile.h"
+#include <QProcess>
 Global *g;
 void setDebugOutput(const QString &targetFilePath, const bool &argDateFlag = false);
 int main(int argc, char *argv[])
@@ -61,19 +62,23 @@ int main(int argc, char *argv[])
     }
     for(int i=0;i<200;i++)
     {
-        alarmSimilar[i]=new ALarmSimilar;
+        if(g->standardList[i]>=0)
+        {
+            alarmSimilar[i]=new ALarmSimilar;
 
-        alarmSimilar[i]->No=i;
-        alarmSimilar[i]->standard=g->standardList[i];
-        alarmSimilar[i]->transmitterNo=g->transmitterNoList[i];
-        alarmSimilar[i]->moveToThread(alarmSimilarThread[i%20]);
-        QObject::connect(alarmSimilarThread[i%20],SIGNAL(started()),alarmSimilar[i],SLOT(initThis()));
-
-
+            alarmSimilar[i]->No=i;
+            alarmSimilar[i]->standard=g->standardList[i];
+            alarmSimilar[i]->transmitterNo=g->transmitterNoList[i];
+            alarmSimilar[i]->moveToThread(alarmSimilarThread[i%20]);
+            QObject::connect(alarmSimilarThread[i%20],SIGNAL(started()),alarmSimilar[i],SLOT(initThis()));
+        }
     }
-    for(int i=0;i<20;i++)
+    for(int i=0;i<200;i++)
     {
-        alarmSimilarThread[i]->start();
+        if(g->standardList[i]>=0)
+        {
+            alarmSimilarThread[i]->start();
+        }
     }
 
 
@@ -92,14 +97,31 @@ int main(int argc, char *argv[])
     {
         QObject::connect(alarmApm[i],SIGNAL(alert(int)),sendData,SLOT(onAlert(int)));
         QObject::connect(alarmApm[i],SIGNAL(alert(int,int,QDateTime)),sendData,SLOT(onAlert(int,int,QDateTime)));
-        QObject::connect(alarmSimilar[i],SIGNAL(alert(int)),sendData,SLOT(onAlert(int)));
-        QObject::connect(alarmSimilar[i],SIGNAL(alert(int,int,QDateTime)),sendData,SLOT(onAlert(int,int,QDateTime)));
-        QObject::connect(alarmSimilar[i],SIGNAL(simInfo(int,float)),sendData,SLOT(simData(int,float)));
+        if(g->standardList[i]>=0)
+        {
+            QObject::connect(alarmSimilar[i],SIGNAL(alert(int)),sendData,SLOT(onAlert(int)));
+            QObject::connect(alarmSimilar[i],SIGNAL(alert(int,int,QDateTime)),sendData,SLOT(onAlert(int,int,QDateTime)));
+            QObject::connect(alarmSimilar[i],SIGNAL(simInfo(int,float)),sendData,SLOT(simData(int,float)));
+        }
     }
     Window w;
     w.setGeometry(0,0,0,0);
-    w.show();
-    return a.exec();
+    //w.show();
+    int e = a.exec();
+
+    if(e == 776)
+
+    {
+
+       QProcess::startDetached(qApp->applicationFilePath(), QStringList());
+
+       qDebug()<<"重启";
+       return 0;
+
+    }
+
+    return e;
+    //return a.exec();
 }
 //日志生成
 void setDebugOutput(const QString &rawTargetFilePath_, const bool &argDateFlag_)

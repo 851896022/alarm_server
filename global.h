@@ -164,6 +164,10 @@ public:
      MySQL mySql;
      SecondLog secondLog;
 
+     //====看门狗=======
+     int watchDogCount[200]={0};
+     QTimer watchDogTimer;
+
 signals:
 
 public slots:
@@ -172,6 +176,8 @@ public slots:
     int getNowFreq(int transmitterNo);
     int addAlarmInfo(int ch,AlarmType alarmType);
     void logInfo(int ch,AlarmType alarmType);
+    void watchDogTimerSlot();
+    void reBoot();
 };
 extern Global *g;
 #endif // GLOBAL_H

@@ -127,6 +127,10 @@ Global::Global(QObject *parent) : QObject(parent)
     connect(timerSec,SIGNAL(timeout()),this,SLOT(refTime()));
     timerSec->start(800);
     mySql.initThis("127.0.0.1","ggd","admin","admin");
+
+    //看门口
+    connect(&watchDogTimer,SIGNAL(timeout()),this,SLOT(watchDogTimerSlot()));
+    watchDogTimer.start(1000);
 }
 void Global::outPutState()
 {
@@ -215,6 +219,25 @@ void Global::logInfo(int ch,AlarmType alarmType)
 
 
 }
+void Global::watchDogTimerSlot()
+{
+    for(int i=0;i<200;i++)
+    {
+       if(g->standardList[i]>=0)
+       {
+           g->watchDogCount[i]++;
 
+
+           if(g->watchDogCount[i]>10)
+           {
+               reBoot();
+           }
+       }
+    }
+}
+void Global::reBoot()
+{
+    qApp->exit(776);
+}
 
 
