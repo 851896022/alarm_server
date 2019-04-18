@@ -122,7 +122,7 @@ Global::Global(QObject *parent) : QObject(parent)
     //野指针
     QTimer *timer=new QTimer;
     connect(timer,SIGNAL(timeout()),this,SLOT(outPutState()));
-    timer->start(5000);
+    timer->start(500);
     QTimer *timerSec=new QTimer;
     connect(timerSec,SIGNAL(timeout()),this,SLOT(refTime()));
     timerSec->start(800);

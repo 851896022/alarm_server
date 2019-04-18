@@ -24,7 +24,7 @@ bool qRedis::openConnection()
     connect(timer,SIGNAL(timeout()),&loop,SLOT(quit()));
     timer->start(5000);
     loop.exec();
-
+    delete timer;
     if(!reader->isConnected())
     {
         return false;
