@@ -104,8 +104,8 @@ int main(int argc, char *argv[])
             QObject::connect(alarmSimilar[i],SIGNAL(simInfo(int,float)),sendData,SLOT(simData(int,float)));
         }
     }
-    Window w;
-    w.setGeometry(0,0,0,0);
+    //Window w;
+    //w.setGeometry(0,0,0,0);
     //w.show();
     int e = a.exec();
 

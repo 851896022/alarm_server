@@ -59,5 +59,5 @@ HEADERS += \
 FORMS += \
         window.ui
 DEFINES += QT_MESSAGELOGCONTEXT
-##CONFIG += console pro
+CONFIG += console pro
 include( $$PWD/JQLibrary/JQCPUMonitor.pri )
