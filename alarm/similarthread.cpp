@@ -8,7 +8,7 @@ SimilarThread::SimilarThread(QThread *parent) : QThread(parent)
 void SimilarThread::run()
 {
     //qDebug()<<g->audioCache[No].count()<<g->audioCache[standard].count();
-    qDebug()<<No<<"QThread ID"<<currentThreadId();
+
     if(g->audioCache[No].count()==65536*2)
     {
         if(g->audioCache[standard].count()==65536*2)

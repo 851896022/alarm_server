@@ -46,7 +46,7 @@ void ALarmSimilar::doWork()
     //发送信息
     emit simInfo(No,xiangdiu);
     //判断状态
-    qDebug()<<No<<"xiangsidu="<<xiangdiu<<"simGate="<<g->simGate[No];
+    //qDebug()<<No<<"xiangsidu="<<xiangdiu<<"simGate="<<g->simGate[No];
     if(xiangdiu>g->simGate[No]||g->getNowFreq(transmitterNo)<=0)
     {
         //移除列表

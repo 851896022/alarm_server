@@ -27,7 +27,34 @@ void MySQL::initThis(QString HostName,QString DataBaseName,QString UserName,QStr
 }
 bool MySQL::command(QString cmd)
 {
-    return query.exec(cmd);
+    if(query.exec(cmd))
+    {
+        return true;//一切正常
+    }
+    else //尝试重新连接
+    {
+
+        db.close();
+        if(db.open())
+        {
+
+            if(query.exec(cmd))//重新尝试执行
+            {
+                qDebug()<<"重新连接后，执行成功。";
+                return  true; //成功
+            }
+            else
+            {
+                qDebug()<<"重新连接后，执行失败。";
+                return false; //失败
+            }
+        }
+        else
+        {
+            qDebug()<<"重新连接失败。";
+            return false;//打开失败
+        }
+    }
 }
 bool MySQL::takeLog(QString log,QString sheet,QString type,QString user)
 {
