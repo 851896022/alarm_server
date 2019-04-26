@@ -40,12 +40,12 @@ void qRedisManager::timerTimeOut()
         QString msg=redis->get(g->transmitterName.at(i));
         if(msg.count()<2)
         {
-            qDebug() << "redis Thread : " << QThread::currentThreadId()<<"|"<<" get big error"<<msg;
+            //qDebug() << "redis Thread : " << QThread::currentThreadId()<<"|"<<" get big error"<<msg;
             //continue;
         }
 
         //qDebug() << "redis Thread : " << QThread::currentThreadId()<<"|"<<msg.at(0)<<msg.at(msg.count()-1);
-        if((msg.at(0)!='[')||(msg.at(msg.count()-1)!=']')) qDebug() << "redis Thread : " << QThread::currentThreadId()<<"|"<<g->transmitterName.at(i)<<" get error";
+        //if((msg.at(0)!='[')||(msg.at(msg.count()-1)!=']')) qDebug() << "redis Thread : " << QThread::currentThreadId()<<"|"<<g->transmitterName.at(i)<<" get error";
         QJsonParseError json_error;
         QJsonDocument parse_doucment = QJsonDocument::fromJson(msg.toStdString().data(),&json_error);
         if(json_error.error == QJsonParseError::NoError)
@@ -302,7 +302,7 @@ void qRedisManager::timerTimeOut()
         }
         else
         {
-            qDebug() << "redis Thread : " << QThread::currentThreadId()<<"|"<<g->transmitterName.at(i)<<" get error";
+            //qDebug() << "redis Thread : " << QThread::currentThreadId()<<"|"<<g->transmitterName.at(i)<<" get error";
         }
     }
     }

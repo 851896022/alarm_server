@@ -12,10 +12,12 @@ void MySQL::initThis(QString HostName,QString DataBaseName,QString UserName,QStr
     SqlUserName=UserName;
     SqlPassWord=PassWord;
     db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setConnectOptions("MYSQL_OPT_RECONNECT=1");
     db.setHostName(SqlHostName);
     db.setDatabaseName(SqlDataBaseName);       //这里输入你的数据库名
     db.setUserName(SqlUserName);
     db.setPassword(SqlPassWord);   //这里输入你的密码
+
     if (!db.open())
     {
         qDebug()<<"数据库打开失败！";
@@ -27,6 +29,11 @@ void MySQL::initThis(QString HostName,QString DataBaseName,QString UserName,QStr
 }
 bool MySQL::command(QString cmd)
 {
+    return query.exec(cmd);
+    return false;
+
+
+
     if(query.exec(cmd))
     {
         return true;//一切正常
