@@ -12,6 +12,14 @@ void ReAudioData::initThis()
     connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
     socket->bind(port);
 }
+void ReAudioData::initThis(int No)
+{
+    this->No=No;
+    socket=new QUdpSocket;
+    int port=50000+(No*10)+2;
+    connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
+    socket->bind(port);
+}
 void ReAudioData::onReadyRead()
 {
 

@@ -14,6 +14,7 @@ signals:
 
 public slots:
     void initThis();
+    void initThis(int No);
     void onReadyRead();
 
 };
