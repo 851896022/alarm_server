@@ -25,6 +25,7 @@ void MySQL::initThis(QString HostName,QString DataBaseName,QString UserName,QStr
     else
     {
         query=QSqlQuery(db);
+        qDebug()<<"数据库打开成功！";
     }
 }
 bool MySQL::command(QString cmd)
@@ -67,6 +68,7 @@ bool MySQL::takeLog(QString log,QString sheet,QString type,QString user)
 {
     //return mySql.command("log values('"+QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")+"', '"+QString::number(type)+"', 'admin','"+str+"',NULL)");
     //时间 字符时间 类型 用户 日志 编号
+    QMutexLocker locker(&mutex);
     QString cmd;
     cmd+="insert into ";
     cmd+=sheet;

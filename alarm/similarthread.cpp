@@ -238,6 +238,48 @@ double SimilarThread::AudioComparison( int16_t *a, int16_t *b)
     sum2=0;
     memset(bufferComp1,0,sizeof(struct complex1)*131072);
     memset(bufferComp2,0,sizeof(struct complex1)*131072);
+    int cha=0;
+    int chb=0;
+    for(int i=0;i<65536;i++)
+    {
+        if(a[i] < g->simGate[No]
+                && a[i] > (0-g->simGate[No]))
+        {
+            cha++;
+        }
+        if(b[i] < g->simGate[No]
+                && b[i] > (0-g->simGate[No]))
+        {
+            chb++;
+        }
+    }
+    if(cha > 65000 && chb > 65000)
+    {
+        delete bufferComp1;
+        delete bufferComp2;
+        delete bufferComp2Out;
+        delete bufferCompMulOut;
+        delete bufferIfft;
+        return 1.0;
+    }
+    else if(cha > 65000 && chb <= 65000)
+    {
+        delete bufferComp1;
+        delete bufferComp2;
+        delete bufferComp2Out;
+        delete bufferCompMulOut;
+        delete bufferIfft;
+        return 0;
+    }
+    else if(cha <= 65000 && chb > 65000)
+    {
+        delete bufferComp1;
+        delete bufferComp2;
+        delete bufferComp2Out;
+        delete bufferCompMulOut;
+        delete bufferIfft;
+        return 0;
+    }
     for(i=0;i<65536;i++)
     {
         if(a[i]<100&&a[i]>-100)
@@ -256,9 +298,6 @@ double SimilarThread::AudioComparison( int16_t *a, int16_t *b)
         {
             bufferb[i]=b[i];
         }
-
-
-
     }
 
     for(i=0;i<65536;i++)

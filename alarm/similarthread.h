@@ -18,7 +18,7 @@ public:
     explicit SimilarThread(QThread *parent = nullptr);
     int No=0;
     int standard=0;
-    float simResult=0;
+    float simResult=-1;
     void run();
 private:
 

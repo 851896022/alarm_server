@@ -163,6 +163,7 @@ public:
     //=====数据库=======
      MySQL mySql;
      SecondLog secondLog;
+     bool logFlag=false;
 
      //====看门狗=======
      int watchDogCount[200]={0};

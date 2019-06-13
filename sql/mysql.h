@@ -5,6 +5,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QDebug>
+#include <QMutex>
 class MySQL : public QObject
 {
     Q_OBJECT
@@ -16,6 +17,7 @@ public:
     QString SqlPassWord;
     QSqlDatabase db;
     QSqlQuery query;
+    QMutex mutex;
 signals:
 
 public slots:

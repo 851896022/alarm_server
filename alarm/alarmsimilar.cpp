@@ -38,6 +38,7 @@ void ALarmSimilar::doWork()
     }
 #endif
     float xiangdiu=simThread->simResult;
+    xiangdiu=((sqrt(xiangdiu)-0.5+(xiangdiu*xiangdiu*xiangdiu)-0.5)*0.5)+0.5;
     g->watchDogCount[No]=0;
     g->similar[No]=xiangdiu;
     //qDebug()<<No<<simThread->isRunning()<<QThread::currentThreadId();
@@ -79,6 +80,8 @@ void ALarmSimilar::doWork()
     else
     {
         //qDebug()<<No<<"sim lost of gate";
+       g->logFlag=true;
+
         if(!alarmDelay->isActive())
         {
             //qDebug()<<No<<"start delay time="<<g->simDelay[No]*1000<<"ms";

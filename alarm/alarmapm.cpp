@@ -21,6 +21,11 @@ void AlarmApm::doTest()
     if(g->maxValue[No]>=g->alarmGate[No])
     {
         alarmCount++;
+        if(g->getNowFreq(transmitterNo)>0)
+        {
+            g->logFlag=true;
+        }
+
     }
     else
     {

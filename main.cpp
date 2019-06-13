@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QString log_dir;
-    log_dir=qApp->applicationDirPath()+"/log3/%1.log";
+    log_dir=qApp->applicationDirPath()+"/log_alarm_server/%1.log";
     setDebugOutput( log_dir, true );
 
     JQCPUMonitor::initialize();
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     {
         if(g->standardList[i]>=0)
         {
-            alarmSimilarThread[i]->start();
+            alarmSimilarThread[i%20]->start();
         }
     }
 
