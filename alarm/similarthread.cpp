@@ -8,19 +8,29 @@ SimilarThread::SimilarThread(QThread *parent) : QThread(parent)
 void SimilarThread::run()
 {
     //qDebug()<<g->audioCache[No].count()<<g->audioCache[standard].count();
-
-    if(g->audioCache[No].count()==65536*2)
+    int A=0;
+    int B=0;
+    if(g->simAudioDelay[No]>0)
     {
-        if(g->audioCache[standard].count()==65536*2)
+        A=g->simAudioDelay[No];
+    }
+    else
+    {
+        B=0-g->simAudioDelay[No];
+    }
+
+    if(g->audioCache[No].count()>=(65536*2)+A+2)
+    {
+        if(g->audioCache[standard].count()>=(65536*2)+B+2)
         {
-            simResult=AudioComparison((short*)g->audioCache[No].data(),(short*)g->audioCache[standard].data());
+            simResult=AudioComparison((short*)(g->audioCache[No].data()+A),(short*)(g->audioCache[standard].data()+B));
             emit sendSimilarity(No/*通道*/,simResult);
             //simResult=tmp;
             //qDebug()<<No<<"work"<<QThread::currentThreadId()<<"sim="<<tmp;
         }
     }
 
-    msleep(qrand()%200);
+
     emit workFinish();
 
 

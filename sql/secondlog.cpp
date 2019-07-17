@@ -8,7 +8,7 @@ void SecondLog::initThis()
 {
     logTimer=new QTimer;
     connect(logTimer,SIGNAL(timeout()),this,SLOT(logSecondData()));
-    logTimer->start(500);
+    logTimer->start(1000);
 }
 void SecondLog::logSecondData()
 {

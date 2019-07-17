@@ -98,11 +98,13 @@ Global::Global(QObject *parent) : QObject(parent)
                     msg.remove("\n");
 
                     QStringList msglist=msg.split("|");
-                    if(msglist.count()>=3)
+                    if(msglist.count()>=4)
                     {
                         int ch=msglist[0].toInt();
                         transmitterNoList[ch]=msglist[1].toInt();
                         standardList[ch]=msglist[2].toInt();
+                        //目标通道音频滞后，数字为正数。
+                        simAudioDelay[ch]=msglist[3].toInt();
                     }
 
                 }
@@ -131,9 +133,15 @@ Global::Global(QObject *parent) : QObject(parent)
     //看门口
     connect(&watchDogTimer,SIGNAL(timeout()),this,SLOT(watchDogTimerSlot()));
     watchDogTimer.start(1000);
+    //计算间隔
+    connect(&countSimPeriodTimer,SIGNAL(timeout()),this,SLOT(countSimPeriod()));
+    countSimPeriodTimer.start(1000);
+
 }
+//读取门限数据
 void Global::outPutState()
 {
+    //qDebug()<<"start"<<"outPutState()";
     qRedis *redis=new qRedis(QString("127.0.0.1"),6379);
     if (!redis->openConnection())
     {
@@ -143,50 +151,107 @@ void Global::outPutState()
     {
         {
            QString msg=redis->get("alarmGate");
-           int num=msg.toInt();
-           for(int i=0;i<200;i++)
+           QStringList msgList=msg.split("|");
+           if(msgList.count()>=200)
            {
-               alarmGate[i]=num;
+               for(int i=0;i<200;i++)
+               {
+                   alarmGate[i]=(msgList.at(i).toInt());
+               }
            }
+           else
+           {
+                for(int i=0;i<200;i++)
+                {
+                    alarmGate[i]=(-1);
+                }
+           }
+
+
         }
         {
            QString msg=redis->get("simGate");
-           float num=msg.toFloat();
-           for(int i=0;i<200;i++)
+           QStringList msgList=msg.split("|");
+           if(msgList.count()>=200)
            {
-               simGate[i]=num;
+               for(int i=0;i<200;i++)
+               {
+                   simGate[i]=(msgList.at(i).toFloat());
+               }
+           }
+           else
+           {
+                for(int i=0;i<200;i++)
+                {
+                    simGate[i]=(-1);
+                }
            }
         }
         {
            QString msg=redis->get("alarmDelay");
-           int num=msg.toInt();
-           for(int i=0;i<200;i++)
+           QStringList msgList=msg.split("|");
+           if(msgList.count()>=200)
            {
-               alarmDelay[i]=num;
+               for(int i=0;i<200;i++)
+               {
+                   alarmDelay[i]=(msgList.at(i).toInt());
+               }
+           }
+           else
+           {
+                for(int i=0;i<200;i++)
+                {
+                    alarmDelay[i]=(999999);
+                }
            }
 
         }
         {
             QString msg=redis->get("simDelay");
-            int num=msg.toInt();
-            for(int i=0;i<200;i++)
+            QStringList msgList=msg.split("|");
+            if(msgList.count()>=200)
             {
-                simDelay[i]=num;
+                for(int i=0;i<200;i++)
+                {
+                    simDelay[i]=(msgList.at(i).toInt());
+                }
+            }
+            else
+            {
+                 for(int i=0;i<200;i++)
+                 {
+                     simDelay[i]=(999999);
+                 }
             }
         }
     }
     delete redis;
+    //qDebug()<<"send"<<"outPutState()";
+//    QString ag,ad,sg,sd;
+//    for(int i=0;i<200;i++)
+//    {
+//        ag.append(QString::number(alarmGate[i])+"|");
+//        ad.append(QString::number(alarmDelay[i])+"|");
+//        sg.append(QString::number(simGate[i])+"|");
+//        sd.append(QString::number(simDelay[i])+"|");
+//    }
+//    qDebug()<<"ag"<<ag;
+//    qDebug()<<"ad"<<ad;
+//    qDebug()<<"sg"<<sg;
+//    qDebug()<<"sd"<<sd;
 
 
 }
 void Global::refTime()
 {
+    //qDebug()<<"start"<<"refTime()";
     QDateTime date=QDateTime::currentDateTime();
     QTime timeNow=date.time();
     g->hourNow=timeNow.hour();
     g->minNow=(g->hourNow*60)+timeNow.minute();
     g->secondNow=(g->minNow*60)+timeNow.second();
     g->weekNow=date.date().dayOfWeek()-1;
+    //qDebug()<<"end"<<"refTime()";
 }
 int Global::getNowFreq(int transmitterNo)
 {
@@ -195,6 +260,7 @@ int Global::getNowFreq(int transmitterNo)
 }
 int Global::addAlarmInfo(int ch,AlarmType alarmType)
 {
+    //qDebug()<<"start"<<"addAlarmInfo(int ch,AlarmType alarmType)";
     alarmCountMutex.lock();
     AlarmInfo tmp;
     tmp.alarmNo=alarmCount;
@@ -206,21 +272,23 @@ int Global::addAlarmInfo(int ch,AlarmType alarmType)
 
     //qDebug()<<"alarm log"<<ok<<"通道"+QString::number(ch)+alarmTypeString.at(alarmType);
     alarmCountMutex.unlock();
-
+    //qDebug()<<"end"<<"addAlarmInfo(int ch,AlarmType alarmType)";
     return tmp.alarmNo;
 }
 void Global::logInfo(int ch,AlarmType alarmType)
 {
+    //qDebug()<<"start"<<"logInfo(int ch,AlarmType alarmType)";
     mySql.takeLog(/*日志内容*/chName[ch]+alarmTypeString.at(alarmType),
                      /*表*/"alarm_log",
                      /*类型*/alarmTypeString.at(alarmType),
                      /*用户名*/"server"
                      );//日志模板
 
-
+    //qDebug()<<"end"<<"logInfo(int ch,AlarmType alarmType)";
 }
 void Global::watchDogTimerSlot()
 {
+    //qDebug()<<"start"<<"watchDogTimerSlot()";
     for(int i=0;i<200;i++)
     {
        if(g->standardList[i]>=0)
@@ -234,10 +302,32 @@ void Global::watchDogTimerSlot()
            }
        }
     }
+    //qDebug()<<"end"<<"watchDogTimerSlot()";
 }
 void Global::reBoot()
 {
+    //qDebug()<<"start"<<"reBoot()";
     qApp->exit(776);
+    //qDebug()<<"end"<<"reboot";
 }
+void Global::countSimPeriod()
+{
+    //qDebug()<<"start"<<"countSimPeriod()";
+    double s0=0,s1=0,s2=0;
 
+    double temp=0;
+
+    s0 = JQCPUMonitor::cpuUsagePercentage() - cpu;
+    temp = kp * ( s0 - s1 ) + ki * s0 + kd * (s0 + s2 - 2 * s1);
+    s2 = s1;
+    s1 = s0;
+
+    temp = simPeriod + temp;
+
+    if(temp<1) temp=1;
+    if(temp>5000) temp=5000;
+    simPeriod=temp;
+    //qDebug()<<"end"<<"countSimPeriod()";
+    //qDebug()<<JQCPUMonitor::cpuUsagePercentage()<<temp;
+}
 

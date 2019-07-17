@@ -38,6 +38,7 @@ void AlarmApm::doTest()
     {
         timerAlertDelay->stop();
         //移除列表
+        g->alarmCountMutex.lock();
         for(int i=0;i<g->alarmInfoList.count();i++)
         {
             if(g->alarmInfoList.at(i).alarmNo==No && g->alarmInfoList.at(i).alarmType==Range)
@@ -45,6 +46,7 @@ void AlarmApm::doTest()
                 g->alarmInfoList.removeAt(i);
             }
         }
+        g->alarmCountMutex.unlock();
         //修改状态
         if(g->stateCh[No]==Range)
         {

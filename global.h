@@ -17,6 +17,7 @@
 #include <QDir>
 #include "sql/mysql.h"
 #include "sql/secondlog.h"
+#include <JQCPUMonitor>
 struct yxtbase
 {
     int startTimeInt=0;
@@ -99,7 +100,7 @@ public:
 
     //音频缓存
     QByteArray audioCache[200];
-    int cacheSize=131072;
+    int cacheSize=524288;
     //相似度
     double similarity[200]={0};
     //峰值
@@ -151,13 +152,21 @@ public:
     float similar[200];
     //相似度延时
     int simDelay[200]={0};
-
+    //相似度计算间隔
+    int simPeriod=100;
+    QTimer countSimPeriodTimer;
+    //通道延时
+    int simAudioDelay[200]={0};
 
 
     //=======转存音频相关=============
     QString audioDirBase[200];
     QString chName[200];
     QList<TransTask> transTaskList;
+    double kp=500;
+    double ki=0;
+    double kd=0;
+    double cpu=0.3;
 
 
     //=====数据库=======
@@ -179,6 +188,7 @@ public slots:
     void logInfo(int ch,AlarmType alarmType);
     void watchDogTimerSlot();
     void reBoot();
+    void countSimPeriod();
 };
 extern Global *g;
 #endif // GLOBAL_H

@@ -30,6 +30,7 @@ void qRedisManager::linkstart()
 }
 void qRedisManager::timerTimeOut()
 {
+
     timer->stop();
     //qDebug() << "redis Thread 2: " << QThread::currentThreadId();
 

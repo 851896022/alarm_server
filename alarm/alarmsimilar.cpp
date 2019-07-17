@@ -51,6 +51,7 @@ void ALarmSimilar::doWork()
     if(xiangdiu>g->simGate[No]||g->getNowFreq(transmitterNo)<=0)
     {
         //移除列表
+        g->alarmCountMutex.lock();
         for(int i=0;i<g->alarmInfoList.count();i++)
         {
             if(g->alarmInfoList.at(i).alarmNo==No && g->alarmInfoList.at(i).alarmType==Similar)
@@ -58,6 +59,7 @@ void ALarmSimilar::doWork()
                 g->alarmInfoList.removeAt(i);
             }
         }
+        g->alarmCountMutex.unlock();
         //修改状态
         if(g->stateCh[No]==Similar)
         {
@@ -89,17 +91,12 @@ void ALarmSimilar::doWork()
         }
 
     }
-    //计算延时
 
 
+    float isUseing=JQCPUMonitor::cpuUsagePercentageIn5Second();
 
 
-
-
-
-
-
-    workDelay->start(delayTime);
+    workDelay->start(g->simPeriod);
 
  }
 void ALarmSimilar::doAlert()

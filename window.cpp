@@ -12,3 +12,13 @@ Window::~Window()
 {
     delete ui;
 }
+
+
+
+void Window::on_save_clicked()
+{
+    g->simAudioDelay[5]=ui->kp->text().toInt();
+    g->simAudioDelay[7]=ui->ki->text().toInt();
+    g->simAudioDelay[9]=ui->kd->text().toInt();
+    g->simAudioDelay[11]=ui->cpu->text().toInt();
+}

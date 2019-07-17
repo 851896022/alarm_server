@@ -6,32 +6,100 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1329</width>
-    <height>973</height>
+    <width>496</width>
+    <height>303</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Window</string>
   </property>
-  <widget class="QTableWidget" name="tableWidget">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>90</y>
-     <width>901</width>
-     <height>731</height>
+     <x>30</x>
+     <y>40</y>
+     <width>201</width>
+     <height>151</height>
     </rect>
    </property>
-   <row>
-    <property name="text">
-     <string>新建行</string>
-    </property>
-   </row>
-   <column>
-    <property name="text">
-     <string>新建列</string>
-    </property>
-   </column>
+   <property name="title">
+    <string>GroupBox</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>P 6</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="kp">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>I 8</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="ki">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>D 10</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="kd">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>CPU 12</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="cpu">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="save">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>200</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>修改</string>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

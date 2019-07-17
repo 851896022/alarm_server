@@ -2,7 +2,7 @@
 #define WINDOW_H
 
 #include <QDialog>
-
+#include <global.h>
 namespace Ui {
 class Window;
 }
@@ -14,6 +14,11 @@ class Window : public QDialog
 public:
     explicit Window(QWidget *parent = 0);
     ~Window();
+
+private slots:
+
+
+    void on_save_clicked();
 
 private:
     Ui::Window *ui;

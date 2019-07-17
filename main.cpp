@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
         }
     }
     //Window w;
-    //w.setGeometry(0,0,0,0);
+
     //w.show();
     int e = a.exec();
 

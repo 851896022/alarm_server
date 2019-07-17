@@ -8,8 +8,10 @@ void SendData::initThis()
 {
     senderSocket=new QUdpSocket;
 }
+
 void SendData::onAlert(int AlertNum)
 {
+    g->alarmCountMutex.lock();
     for(int i=0;i<g->alarmInfoList.count();i++)
     {
         if(g->alarmInfoList.at(i).alarmNo==AlertNum)
@@ -28,6 +30,7 @@ void SendData::onAlert(int AlertNum)
             break;
         }
     }
+    g->alarmCountMutex.unlock();
 
 }
 void SendData::onAlert(int ch,int type,QDateTime time)
